@@ -13,7 +13,7 @@ def veccheck(vector):
 
 def matcheck(matrix):
   """
-  matcheck runs each row through veccheck and then iterates using a for loop. 
+  matcheck runs each row through veccheck and then iterates using a for loop. It should return True or False for a matrix input of m x n.
   """
   inputStatus = True
   for j in range(len(matrix)):
