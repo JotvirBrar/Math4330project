@@ -8,7 +8,7 @@ def veccheck(vector):
     if ((type(vector[i]) != int) and (type(vector[i]) != float) and (type(vector[i]) != complex)):
       #making sure the i's are integers
       inputStatus = False
-      print("Incorrect Input")
+      print("Invalid Input")
   return inputStatus
 
 def matcheck(matrix):
@@ -19,7 +19,7 @@ def matcheck(matrix):
   for j in range(len(matrix)):
     if veccheck(matrix[j]) != True:
       inputStatus = False
-      print("Incorrect Input")
+      print("Invalid Input")
   return inputStatus  
 
 def twoNorm(vector):
