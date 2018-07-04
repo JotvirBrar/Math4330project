@@ -160,7 +160,8 @@ def transmatvecMulti(Q, y):
       product += Q[i][j] * y[j]
     new.append(product) 
   return new
-b = transmatvecMulti(Q, y)
+  
+b = transmatvecMulti
 #define b for backsub
 def backsub(R, b):
   '''
