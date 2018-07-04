@@ -67,27 +67,29 @@ def normalize(vector):
   return final
 
 def dot(vector01, vector02):
-  """
-  This function takes in two vectors and returns the dot product of them. The output should be a scalar. vector01 and vector 02 should both be 1 x n vectors.
-  """
-  ans = 0
+  if veccheck(vector01) == True and veccheck(vector02) and len(vector01)==len(vector02) and len(vector01)!=0:
+    result = 0
+    #makes sure both vectors are the same length
+    ans = 0
   #initializing an array
-  for i in range(len(vector01)):
-    # #iterates through each of the elements in the vectors and adds them up and puts them into ans
-    ans += vector01[i]*vector02[i]
-  return ans
+    for i in range(len(vector01)):
+      # #iterates through each of the elements in the vectors and adds them up and puts them into ans
+      ans += vector01[i]*vector02[i]
+    return ans
 
 def vectorscamult(scalar, vector):
   '''
   This function takes in a scalar and a vector. It multiplies each value of the vector with the scalar and returns a new list after appending.
   '''
   new = []
-  for i in range(len(vector)):
-    total = 0
-    # total is after i, so it resets to the first element and add to the second
-    total += vector[i] * scalar
-    new.append(total)
-  return new
+  if veccheck(vector) == True:
+    result = 0
+    for i in range(len(vector)):
+      total = 0
+      # total is after i, so it resets to the first element and add to the second
+      total += vector[i] * scalar
+      new.append(total)
+    return new
 
 
 def vecSubtract(vector01,vector02):
@@ -96,9 +98,12 @@ def vecSubtract(vector01,vector02):
   The input and output should both be vectors of 1 x n.
   """
   newvec = []
-  for i in range(len(vector01)):
-    newvec.append(vector01[i] - vector02[i])
-  return newvec
+  if veccheck(vector01) == True and veccheck(vector02) and len(vector01)==len(vector02) and len(vector01)!=0:
+    result = 0
+    #checking vector lengths
+    for i in range(len(vector01)):
+      newvec.append(vector01[i] - vector02[i])
+    return newvec
 
 
 A = [[1, 2, 3], [2, -1, 3]]
@@ -131,11 +136,49 @@ def GrSc(A):
   return [Q, R]
 
 output = GrSc(A)
-print(output[0])
-print(output[1])
 
-xlist = [0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1]
+QR = GrSc(A)
 
-ylist = [1.102, 1.099, 1.017, 1.111, 1.117, 1.152, 1.265, 1.380, 1.575, 1.857]
+Q = QR[0]
+R = QR[1]
+#defining Q and R
+
+x = [0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1]
+
+y = [1.102, 1.099, 1.017, 1.111, 1.117, 1.152, 1.265, 1.380, 1.575, 1.857]
 
 VanMat = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00], [0.3025, 0.36, 0.4225, 0.49, 0.5625, 0.64, 0.7225, 0.81, 0.9025, 1], [0.166375, 0.216, 0.274625, 0.343, 0.421875, 0.512, 0.614125, 0.729, 0.857375, 1]]
+
+def transmatvecMulti(Q, y):
+  '''
+  transvecmulti takes matrix Q and vector y and multiplies them together. Making Q made of column vectors, eliminated the need to transpose it.
+  '''
+  new = [] 
+  for i in range(len(Q)):
+    product = 0
+    for j in range(len(y)):
+      product += Q[i][j] * y[j]
+    new.append(product) 
+  return new
+b = transmatvecMulti(Q, y)
+#define b for backsub
+def backsub(R, b):
+  '''
+  backsub uses for loops to solve for each unkwown. Taking vectors R and b, it returns c, c being the coeffiecents to the variables.
+  '''
+  a = len(b) - 1
+  c = [0] * len(b)
+  c[a] = b[a] / R[a][a]
+  for i in range(a, 0, -1):
+    c[i] = b[i]
+    for j in range(i +1, a):
+      c[i] = c[i] - c[j]*R[j][i]
+      c[i] = c[i] / R[i][i]
+  return c
+
+print(A)
+print(GrSc(A))
+print(backsub(R, b))
+
+
+
